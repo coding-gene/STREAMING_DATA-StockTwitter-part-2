@@ -27,6 +27,7 @@ try:
 
     df = pd.read_sql_query('SELECT * FROM tweet_sentiment_analysis', connection)
     print(df)
+    print(df)
 
 except Exception:
     logging.exception(f'An error occurred during job performing:')
