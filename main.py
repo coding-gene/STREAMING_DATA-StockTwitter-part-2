@@ -19,15 +19,25 @@ logging.basicConfig(filename='logs.txt',
 logging.info(f'Job started.')
 # noinspection PyBroadException
 try:
-    connection = sqlite3.connect(r'C:\Users\Ivan\PycharmProjects\SCRAPING-StockTwitter\twitter.db')
-    cursor = connection.cursor()
-    #  cursor.execute('DELETE FROM gme_stock_data;')
-    #  cursor.execute('DROP TABLE IF EXISTS tweet_sentiment_analysis;')
-    #  connection.commit()
+    twitt_connection = sqlite3.connect(r'C:\Users\Ivan\PycharmProjects\SCRAPING-StockTwitter\twitter.db')
+    twitt_cursor = twitt_connection.cursor()
+    #  twitt_cursor.execute('DELETE FROM tweet_sentiment_analysis;')
+    #  twitt_cursor.execute('DROP TABLE IF EXISTS tweet_sentiment_analysis;')
+    #  twitt_connection.commit()
+    twitt_df = pd.read_sql_query('SELECT * FROM tweet_sentiment_analysis', twitt_connection)
+    twitt_df.to_excel(r'twitter_data.xlsx', index=False)
+    print(twitt_df)
 
-    df = pd.read_sql_query('SELECT * FROM tweet_sentiment_analysis', connection)
-    print(df)
-    print(df)
+    stock_connection = sqlite3.connect(r'C:\Users\Ivan\PycharmProjects\SCRAPING-StockTwitter\stock.db')
+    stock_cursor = stock_connection.cursor()
+    #  stock_cursor.execute('DELETE FROM gme_stock_data;')
+    #  stock_cursor.execute('DROP TABLE IF EXISTS gme_stock_data;')
+    #  stock_connection.commit()
+    stock_df = pd.read_sql_query('SELECT * FROM gme_stock_data', stock_connection)
+    stock_df.to_excel(r'stock_data.xlsx', index=False)
+    print(stock_df)
+
+
 
 except Exception:
     logging.exception(f'An error occurred during job performing:')
